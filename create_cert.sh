@@ -1,26 +1,27 @@
 #!/bin/bash
-#shellcheck disable=2086
 
 set -e
 
-CNAME=()
-DOMAIN=
+trap cleanup EXIT
+
+cleanup() {
+    docker-compose down
+}
+
+D=()
 DRYRUN=true
 EMAIL=root@localhost
 
 usage() {
-    echo "$0 -c CNAME -d DOMAIN -e EMAIL -p"
+    echo "$0 -d DOMAIN [ -d DOMAIN ... ] -e EMAIL -p"
     exit "$1"
 }
 
 while getopts "c:d:e:hp" opt
 do
     case "$opt" in
-        c)
-            CNAME+=("$OPTARG")
-            ;;
         d)
-            DOMAIN="$OPTARG"
+            D+=("$OPTARG")
             ;;
         e)
             EMAIL="$OPTARG"
@@ -42,13 +43,13 @@ do
     esac
 done
 
-if sudo lsof -i tcp:80
-then
-    echo "[ERROR] Another process is already bound to port 80."
-    exit 1
-fi
+#if ! netstat -4tlpn &> /dev/null | ag 80
+#then
+#    echo "[WARNING] Another process is already using port 80, exiting..."
+#    exit 1
+#fi
 
-if [ -z "$DOMAIN" ]
+if [ "${#D[*]}" -eq 0 ]
 then
     echo "[ERROR] Missing required parameter DOMAIN"
     usage 2
@@ -61,17 +62,14 @@ else
     OPTIONS="--email $EMAIL --no-eff-email"
 fi
 
-DOMAINS="-d $DOMAIN "
-if [ "${#CNAME[*]}" -gt 0 ]
-then
-    for item in "${CNAME[@]}"
-    do
-        DOMAINS+="-d $item.$DOMAIN "
-    done
-fi
+for domain in "${D[@]}"
+do
+    LIST_DOMAINS+="$domain "
+    DOMAINS+="-d $domain "
+done
 
 echo -------------------------------
-echo "DOMAINS: $DOMAINS"
+echo "DOMAINS: $LIST_DOMAINS"
 echo "EMAIL:   $EMAIL"
 echo "DRYRUN:  $DRYRUN"
 echo -------------------------------
@@ -98,6 +96,4 @@ docker run --rm -it \
     -v "$(pwd)/letsencrypt/var/lib/letsencrypt:/var/lib/letsencrypt" \
     certbot/certbot \
     certificates
-
-docker-compose down
 
