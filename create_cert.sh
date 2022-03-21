@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# $ ./create_cert.sh \
+#     -d benjamintoll.com \
+#     -d www.benjamintoll.com \
+#     -d benjamintoll.io \
+#     -d www.benjamintoll.io \
+#     -d italy.benjamintoll.com \
+#     -d theowlsnest.farm \
+#     -d www.theowlsnest.farm \
+#     -d theowlsnestfarm.com \
+#     -d www.theowlsnestfarm.com \
+#     -e benjam72@yahoo.com \
+#     -p
+
 set -e
 
 trap cleanup EXIT

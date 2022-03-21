@@ -20,21 +20,25 @@ $ cd certbot
 ```
 $ ./create_cert.sh \
     -d benjamintoll.com \
-    -d www.benjamintoll.com \
-    -d italy.benjamintoll.com \
+    -d benjamintoll.io \
     -d theowlsnest.farm \
+    -d theowlsnestfarm.com \
+    -d www.benjamintoll.com \
+    -d www.benjamintoll.io \
+    -d italy.benjamintoll.com \
     -d www.theowlsnest.farm \
-    -e btoll@example.com
+    -d www.theowlsnestfarm.com \
+    -e benjam72@yahoo.com
 -------------------------------
-DOMAINS: benjamintoll.com www.benjamintoll.com italy.benjamintoll.com theowlsnest.farm www.theowlsnest.farm
-EMAIL:   btoll@example.com
+DOMAINS: benjamintoll.com benjamintoll.io theowlsnest.farm theowlsnestfarm.com www.benjamintoll.com www.benjamintoll.io italy.benjamintoll.com www.theowlsnest.farm www.theowlsnestfarm.com
+EMAIL:   benjam72@yahoo.com
 DRYRUN:  true
 -------------------------------
 Creating network "certbot_default" with the default driver
 Creating letsencrypt-nginx ... done
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
 Account registered.
-Requesting a certificate for benjamintoll.com and 4 more domains
+Requesting a certificate for benjamintoll.com and 8 more domains
 
 Successfully received certificate.
 Certificate is saved at: /etc/letsencrypt/live/benjamintoll.com/fullchain.pem
@@ -51,7 +55,7 @@ Found the following certs:
   Certificate Name: benjamintoll.com
     Serial Number: fa75405f69685b5bb590d756202cecb6866e
     Key Type: RSA
-    Domains: benjamintoll.com italy.benjamintoll.com theowlsnest.farm www.benjamintoll.com www.theowlsnest.farm
+    Domains: benjamintoll.com benjamintoll.io italy.benjamintoll.com theowlsnest.farm theowlsnestfarm.com www.benjamintoll.com www.benjamintoll.io www.theowlsnest.farm www.theowlsnestfarm.com
     Expiry Date: 2022-04-11 00:23:15+00:00 (INVALID: TEST_CERT)
     Certificate Path: /etc/letsencrypt/live/benjamintoll.com/fullchain.pem
     Private Key Path: /etc/letsencrypt/live/benjamintoll.com/privkey.pem
@@ -63,11 +67,16 @@ Found the following certs:
 ```
 $ ./create_cert.sh \
     -d benjamintoll.com \
-    -d www.benjamintoll.com \
-    -d italy.benjamintoll.com \
+    -d benjamintoll.io \
     -d theowlsnest.farm \
+    -d theowlsnestfarm.com \
+    -d www.benjamintoll.com \
+    -d www.benjamintoll.io \
+    -d italy.benjamintoll.com \
     -d www.theowlsnest.farm \
-    -e btoll@example.com -p
+    -d www.theowlsnestfarm.com \
+    -e benjam72@yahoo.com \
+    -p
 ```
 
 5. Re-start the cluster:
@@ -85,7 +94,7 @@ To get information on your certificate:
 $ cat letsencrypt/etc/letsencrypt/renewal/benjamintoll.com.conf
 ```
 
-The `create_cert.sh` shell script will create the following directory structur:
+The `create_cert.sh` shell script will create the following directory structure:
 
 <pre class="math">
 letsencrypt/
